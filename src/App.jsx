@@ -42,7 +42,7 @@ function App() {
             borderRadius: '8px',
           },
         }}  />
-      {/* <SplashCursor /> */}
+      <SplashCursor />
       <Navbar />
       <section id="/">
         <div className="min-h-screen flex flex-col md:flex-row justify-center items-center  gap-8 px-4">
@@ -113,7 +113,7 @@ function App() {
       <section id="contact">
            <Contact />
       </section>
-      
+
     </div>
   );
 }
