@@ -1,111 +1,88 @@
-
-import emailjs from '@emailjs/browser';
 import React, { useRef } from 'react';
-import toast from 'react-hot-toast';
+import emailjs from '@emailjs/browser';
+import toast from "react-hot-toast";
+
 
 function Contact() {
-
   const form = useRef();
-    const sendEmail = (e) => {
+  const sendEmail = (e) => {
     e.preventDefault();
-     const loadingToast = toast.loading('Sending message...');
-    emailjs
-      .sendForm(import.meta.env.VITE_EMAILJS_SERVICE_ID, import.meta.env.VITE_EMAILJS_TEMPLATE_ID, form.current, 
-        import.meta.env.VITE_EMAILJS_PUBLIC_KEY
-      )
-      .then(
+    const loadingToast = toast.loading("Sending message...");
+        emailjs
+      .sendForm(import.meta.env.VITE_EMAILJS_SERVICE_ID,
+      import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+      form.current,
+      { publicKey: import.meta.env.VITE_EMAILJS_PUBLIC_KEY })
+       .then(
         () => {
-          console.log('SUCCESS!');
-          form.current.reset(); 
-          toast.success('✅ Message sent successfully!', { id: loadingToast });
+          toast.success("✅ Message sent successfully!", { id: loadingToast });
+          form.current.reset();
         },
         (error) => {
-          toast.error('❌ Failed to send message!', { id: loadingToast });
-          console.log('FAILED...', error.text);
-        },
+          toast.error("❌ Failed to send message!", { id: loadingToast });
+          console.error("FAILED...", error.text);
+        }
       );
   };
-return (
-   
- 
 
-  <div className="flex flex-col items-center justify-center min-h-screen w-full px-6 bg-transparent backdrop-blur-sm">
-    
-    {/* OUTSIDE HEADING */}
-    <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">
-  Let's Make It Happen
-</h2>
+  return (
+   <div className="min-h-screen flex items-center justify-center px-4 py-12   from-gray-900 via-gray-800 to-gray-900">
+  <form
+    ref={form}
+    onSubmit={sendEmail}
+    className="w-full max-w-xl bg-white/10 backdrop-blur-md p-8 rounded-3xl shadow-[0_0_40px_5px_rgba(0,255,255,0.05)] border border-cyan-500/30 text-white space-y-6"
+  >
+    <h2 className="text-3xl sm:text-4xl font-bold text-center bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
+      Let's Make It Happen!
+    </h2>
 
-
-    {/* CONTACT FORM BOX */}
-    <div className="w-full max-w-2xl p-10 border border-cyan-500/30 rounded-3xl bg-white/5 shadow-[0_0_80px_5px_rgba(0,255,255,0.05)] backdrop-blur-md mt-7">
-      <form className="space-y-10" ref={form} onSubmit={sendEmail}>
-        {/* Name Field */}
-        <div className="relative group">
-          <input
-            type="text"
-            name="user_name"
-            required
-            placeholder="Your Name"
-            className="w-full bg-transparent text-blue-200 py-3 px-0 placeholder-transparent focus:outline-none focus:ring-0 border-b border-cyan-500 focus:border-cyan-400 transition-all duration-300"
-          />
-          <label className="absolute left-0 top-3 text-cyan-300 text-sm pointer-events-none transition-all duration-300 group-focus-within:top-[-14px] group-focus-within:text-xs group-focus-within:text-cyan-400">
-            Your Name
-          </label>
-        </div>
-
-        {/* Email Field */}
-        <div className="relative group">
-          <input
-            type="email"
-            name="user_email"
-            required
-            placeholder="Your Email"
-            className="w-full bg-transparent text-blue-200 py-3 px-0 placeholder-transparent focus:outline-none focus:ring-0 border-b border-cyan-500 focus:border-cyan-400 transition-all duration-300"
-          />
-          <label className="absolute left-0 top-3 text-cyan-300 text-sm pointer-events-none transition-all duration-300 group-focus-within:top-[-14px] group-focus-within:text-xs group-focus-within:text-cyan-400">
-            Your Email
-          </label>
-        </div>
-
-        {/* Message Field */}
-        <div className="relative group">
-          <textarea
-            name="message"
-            rows="4"
-            required
-            placeholder="Your Message"
-            className="w-full bg-transparent text-blue-200 py-3 px-0 placeholder-transparent focus:outline-none focus:ring-0 border-b border-cyan-500 focus:border-cyan-400 transition-all duration-300 resize-none"
-          />
-          <label className="absolute left-0 top-3 text-cyan-300 text-sm pointer-events-none transition-all duration-300 group-focus-within:top-[-14px] group-focus-within:text-xs group-focus-within:text-cyan-400">
-            Your Message
-          </label>
-        </div>
-
-        {/* Send Button */}
-        <div className="relative group w-fit">
-          <button
-            type="submit"
-            className="px-6 py-2 text-cyan-300 hover:text-white bg-cyan-500/10 tracking-wide font-medium transition-all duration-300 hover:bg-cyan-400/20 hover:shadow-[0_0_10px_cyan] rounded-md"
-          >
-            Send Message
-          </button>
-          <div className="absolute inset-0 group-hover:animate-ping bg-gradient-to-r from-cyan-400 to-blue-500 opacity-10 blur-sm rounded-md"></div>
-        </div>
-      </form>
+    {/* Name Field */}
+    <div>
+      <label className="block text-cyan-200 mb-1">Name</label>
+      <input
+        type="text"
+        name="user_name"
+        required
+        className="w-full px-4 py-3 bg-transparent border border-cyan-400 rounded-md text-white placeholder-cyan-300 focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-all"
+        placeholder="Your name"
+      />
     </div>
-  </div>
-   
-);
 
+    {/* Email Field */}
+    <div>
+      <label className="block text-cyan-200 mb-1">Email</label>
+      <input
+        type="email"
+        name="user_email"
+        required
+        className="w-full px-4 py-3 bg-transparent border border-cyan-400 rounded-md text-white placeholder-cyan-300 focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-all"
+        placeholder="Your email"
+      />
+    </div>
 
+    {/* Message Field */}
+    <div>
+      <label className="block text-cyan-200 mb-1">Message</label>
+      <textarea
+        name="message"
+        rows="5"
+        required
+        className="w-full px-4 py-3 bg-transparent border border-cyan-400 rounded-md text-white placeholder-cyan-300 resize-none focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-all"
+        placeholder="Write your message..."
+      ></textarea>
+    </div>
 
+    {/* Submit Button */}
+    <button
+      type="submit"
+      className="w-full py-3 mt-2 font-semibold bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 rounded-md text-white transition-all duration-300 shadow-md"
+    >
+      Send Message
+    </button>
+  </form>
+</div>
 
-
-
-
-
-
+  )
 }
 
 export default Contact
