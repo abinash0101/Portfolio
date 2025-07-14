@@ -10,9 +10,9 @@ function Contact() {
     e.preventDefault();
      const loadingToast = toast.loading('Sending message...');
     emailjs
-      .sendForm('service_n07u9ye', 'template_bxxce03', form.current, {
-        publicKey: 'EOckkxbtOi44yA5Tp',
-      })
+      .sendForm(import.meta.env.VITE_EMAILJS_SERVICE_ID, import.meta.env.VITE_EMAILJS_TEMPLATE_ID, form.current, 
+        import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+      )
       .then(
         () => {
           console.log('SUCCESS!');
